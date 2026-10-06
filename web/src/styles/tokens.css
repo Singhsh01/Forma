@@ -1,0 +1,86 @@
+/*
+ * FORMA design tokens. Names come from the world of the flagship: a night library above the
+ * clouds. Ink sky, vellum pages, lamplight in the windows, copper patina, terracotta, moss.
+ * Chrome uses one accent (lamplight). Patina, terracotta and moss carry meaning only:
+ * circulation/selection, failures, passes. See DESIGN.md.
+ */
+:root {
+  color-scheme: dark;
+
+  /* surfaces: one hue (ink blue), lightness steps of a few percent */
+  --night-950: #0a1526;
+  --night-900: #0e1c31;
+  --night-850: #12233c;
+  --night-800: #172a47;
+  --night-750: #1d3353;
+  --night-700: #263f63;
+
+  /* text */
+  --vellum: #f1e8d6;
+  --vellum-2: rgba(241, 232, 214, 0.76);
+  --vellum-3: rgba(241, 232, 214, 0.58);
+  --vellum-4: rgba(241, 232, 214, 0.38);
+
+  /* lines */
+  --line: rgba(241, 232, 214, 0.09);
+  --line-2: rgba(241, 232, 214, 0.16);
+  --line-3: rgba(241, 232, 214, 0.28);
+
+  /* accent and meaning */
+  --lamplight: #ffb547;
+  --lamplight-ink: #2a1a04;
+  --lamplight-soft: rgba(255, 181, 71, 0.14);
+  --patina: #4fc3b0;
+  --patina-soft: rgba(79, 195, 176, 0.14);
+  --terracotta: #ff7d5e;
+  --terracotta-soft: rgba(255, 125, 94, 0.13);
+  --moss: #82c66d;
+  --moss-soft: rgba(130, 198, 109, 0.13);
+
+  /* type */
+  --font-display: "Syne Variable", "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-text: "Instrument Sans Variable", "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-code: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* exhibition scale (fluid) */
+  --type-display: clamp(3rem, 7.4vw, 6rem);
+  --type-title: clamp(2.1rem, 4.4vw, 3.6rem);
+  --type-heading: clamp(1.4rem, 2.2vw, 1.85rem);
+  --type-lede: clamp(1.1rem, 1.5vw, 1.3rem);
+  --type-body: 1.0625rem;
+  --type-small: 0.875rem;
+
+  /* studio scale (ratio 1.2 from 13px) */
+  --ui-11: 0.6875rem;
+  --ui-13: 0.8125rem;
+  --ui-15: 0.9375rem;
+  --ui-18: 1.125rem;
+  --ui-22: 1.375rem;
+
+  /* spacing: 4px base */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 20px;
+  --s6: 24px;
+  --s8: 32px;
+  --s10: 40px;
+  --s12: 48px;
+  --s16: 64px;
+  --s24: 96px;
+  --s32: 128px;
+
+  /* radius rule: controls 6, containers 10, imagery 3 */
+  --r-control: 6px;
+  --r-container: 10px;
+  --r-image: 3px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-move: cubic-bezier(0.77, 0, 0.175, 1);
+  --t-fast: 140ms;
+  --t-med: 220ms;
+
+  --focus: 0 0 0 2px var(--night-950), 0 0 0 4px var(--lamplight);
+}

@@ -1,0 +1,254 @@
+/* "How it grows": a reading page. Long-form text on the left, a sticky replay on the right. */
+
+.how {
+  background: var(--night-950);
+  min-height: 100vh;
+}
+
+.how-nav {
+  position: relative;
+}
+
+.how-intro {
+  padding: clamp(var(--s10), 6vw, 96px) clamp(var(--s4), 4.4vw, var(--s16)) var(--s10);
+}
+
+.how-intro h1 {
+  font-size: var(--type-display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.how-intro p {
+  margin-top: var(--s6);
+  font-size: var(--type-lede);
+  color: var(--vellum-2);
+  max-width: 44rem;
+}
+
+.how-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(var(--s8), 4vw, var(--s16));
+  padding: 0 clamp(var(--s4), 4.4vw, var(--s16)) var(--s24);
+}
+
+.how-chapters {
+  display: grid;
+  gap: clamp(120px, 22vh, 220px);
+  padding: 8vh 0 30vh;
+}
+
+.chapter {
+  max-width: 40rem;
+  scroll-margin-top: 20vh;
+}
+
+.chapter h2 {
+  font-size: var(--type-title);
+  font-weight: 800;
+  padding-top: var(--s4);
+  border-top: 1px solid var(--line-3);
+  display: inline-block;
+}
+
+.chapter-lede {
+  font-size: var(--type-lede);
+  color: var(--vellum);
+  margin: var(--s5) 0 var(--s4);
+}
+
+.chapter > p {
+  color: var(--vellum-2);
+}
+
+.chapter em {
+  font-style: normal;
+  color: var(--vellum);
+  font-weight: 600;
+}
+
+.chapter-figure {
+  margin: var(--s8) 0 0;
+}
+
+.chapter-figure figcaption {
+  color: var(--vellum-3);
+  font-size: var(--type-small);
+  margin-top: var(--s3);
+  max-width: 34rem;
+}
+
+.mini-plan {
+  position: relative;
+  height: 320px;
+  border-radius: var(--r-container);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.mini-plan .plan-fallback {
+  padding: var(--s4);
+  grid-template-rows: 1fr;
+}
+
+.mini-plan .plan-note {
+  display: none;
+}
+
+.ops-list {
+  margin: var(--s6) 0 0;
+  padding-left: 1.1em;
+  color: var(--vellum-2);
+  font-size: var(--type-small);
+  display: grid;
+  gap: 4px;
+}
+
+.how-code {
+  margin: var(--s6) 0;
+  padding: var(--s5);
+  border-radius: var(--r-container);
+  background: var(--night-900);
+  border: 1px solid var(--line);
+  color: #eadfca;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.how-rules {
+  list-style: none;
+  padding: 0;
+  margin: var(--s6) 0 0;
+  display: grid;
+  gap: var(--s4);
+}
+
+.how-rules li {
+  display: grid;
+  gap: var(--s3);
+  padding: var(--s4) 0;
+  border-top: 1px solid var(--line);
+}
+
+.how-rule-top {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s4);
+  align-items: baseline;
+}
+
+.how-rule-top code {
+  color: var(--vellum);
+  font-size: 0.95rem;
+}
+
+.how-rule-top span {
+  color: var(--lamplight);
+  font-weight: 600;
+  font-size: var(--type-small);
+}
+
+.how-rules p {
+  color: var(--vellum-2);
+  font-size: 0.95rem;
+}
+
+.how-sample {
+  display: grid;
+  gap: 6px;
+  color: var(--vellum-3);
+  font-size: var(--type-small);
+}
+
+.how-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s5) var(--s4);
+  margin: var(--s8) 0 var(--s5);
+}
+
+.how-stats div {
+  display: grid;
+  gap: 2px;
+}
+
+.how-stats dt {
+  color: var(--vellum-3);
+  font-size: var(--type-small);
+}
+
+.how-stats dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+}
+
+.how-toggle {
+  margin-top: var(--s5);
+}
+
+.how-cta {
+  margin-top: var(--s8);
+}
+
+.how-stage {
+  position: relative;
+}
+
+.how-stage-inner {
+  position: sticky;
+  top: var(--s5);
+  height: calc(100vh - 2 * var(--s5));
+  border-radius: var(--r-container);
+  overflow: hidden;
+  background: #13223f;
+  border: 1px solid var(--line);
+}
+
+.how-viewer,
+.how-viewer > div {
+  position: absolute !important;
+  inset: 0;
+}
+
+.how-stage-caption {
+  position: absolute;
+  left: var(--s4);
+  bottom: var(--s4);
+  padding: 6px 12px;
+  border-radius: var(--r-control);
+  background: rgba(10, 21, 38, 0.82);
+  border: 1px solid var(--line-2);
+  color: var(--vellum-2);
+  font-size: var(--type-small);
+}
+
+@media (max-width: 980px) {
+  .how-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .how-stage {
+    order: -1;
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    height: 46vh;
+  }
+  .how-stage-inner {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    top: 0;
+    border-radius: 0 0 var(--r-container) var(--r-container);
+  }
+  .how-chapters {
+    padding-top: var(--s10);
+    gap: 96px;
+  }
+  .how-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

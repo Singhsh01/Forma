@@ -1,0 +1,1 @@
+{"preset":"library","seed":7,"params":{"height":20,"towers":3},"ruleOverrides":{"detailing":"sequence detailing\n  prl lanterns steps=1\n    rule lamp \"T E\" -> \"* l\" p=0.2 sym=none   # many more lanterns on the terraces\n"}}

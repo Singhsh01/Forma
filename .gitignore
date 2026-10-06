@@ -1,0 +1,16 @@
+# build output
+build/
+target/
+web/dist/
+web/node_modules/
+web/test-results/
+web/playwright-report/
+web/tsconfig.tsbuildinfo
+*.log
+
+# local / OS
+.DS_Store
+.idea/
+*.iml
+.vscode/
+_to_delete/
