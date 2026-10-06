@@ -64,6 +64,82 @@ Each run writes `scene.json`, `replay.json`, `inspector.json` and `config.json` 
 
 ![Gallery](docs/screenshots/landing-gallery-desktop.png)
 
+## The Markov chain: how FORMA refines a design
+
+Yes, there is a real Markov chain in FORMA, and it is the part that turns one generated design into a family of better ones. Refinement is **Markov chain Monte Carlo (MCMC)** with the **Metropolis-Hastings** rule. Each step depends only on the current design, never on how the chain got there, which is what makes it a Markov chain.
+
+(FORMA also borrows the name from MarkovJunior: a `markov` node in the rule language keeps applying the first rule that can still change the grid. That is a rewrite-rule control structure, not a probabilistic chain. The sampler described here is the probabilistic one.)
+
+### What the chain walks over
+
+The chain does not move voxels. It moves the **massing**: the small description each world composes before anything is built. That means volume positions, storey counts, roof gardens, courtyard sizes and which links (bridges, walkways) exist. The state is tiny, every edit can be undone exactly, and any state can be turned back into a full building, which is why the chain can explore quickly.
+
+### One step of the chain
+
+1. **Propose** a small edit at random. Each kind of edit has a fixed probability:
+
+   | Move | Example from the flagship |
+   |---|---|
+   | Shift a volume one cell | "shift Tower 2 east" |
+   | Add or remove a storey | "raise Tower 3 to 9 storeys" |
+   | Toggle a roof garden | "add roof garden to Tower 1" |
+   | Widen or narrow a courtyard | "widen the open court of the atrium" |
+   | Toggle a link | "remove sky bridge between Tower 1 and Tower 4" |
+
+   Every move has an exact reverse that is just as likely (east and west, raise and lower, on and off), so the proposal is symmetric and the Hastings correction cancels.
+2. **Check hard constraints.** If the edit breaks a rule of the world (stays on site, towers apart, bridge spans within limits, platforms reachable from the pinnacle), it is rejected immediately and the chain stays where it is.
+3. **Score it.** The energy `E` is a weighted sum of the world's objectives, each a penalty that is 0 when ideal: daylight between towers, linked circulation, slender proportions, a lively skyline, greenery, density and so on. You set the weights with sliders in the Refine tab. These are stated design preferences, not a measure of beauty.
+4. **Accept or reject** with the Metropolis rule:
+
+   ```
+   accept with probability  min(1, exp(-ΔE / T))
+   ```
+
+   An improvement (`ΔE < 0`) is always kept. A worse design is sometimes kept, more often when the temperature `T` is high. Those uphill steps let the chain escape a local optimum instead of getting stuck on the first decent layout.
+
+At a fixed temperature, the chain spends its time in each valid design in proportion to `exp(-E/T)` (the Boltzmann distribution). This is checked, not assumed: `metropolisSamplesTheBoltzmannDistribution` runs the sampler on a small state space and compares the visit counts with the exact distribution. A second test checks that uphill moves are accepted at the right rate.
+
+### Sampling or optimising
+
+* **MCMC at fixed T** samples good designs and keeps exploring. This is the default.
+* **Simulated annealing** lowers `T` from a start value to an end value over the run. It behaves like an optimiser and is labelled as one in the UI.
+* **Keep: lowest energy visited / final state.** A sampler wanders, so its last design can be worse than the best one it passed. By default FORMA re-builds the lowest-energy design it saw; you can switch to the final state.
+
+### A real run
+
+The flagship library (seed 7), 2,000 iterations at `T = 0.25`, sampler seed 1:
+
+* 1,243 of 2,000 proposals accepted, 504 of them uphill
+* energy 4.924 at the start, 1.850 for the best design visited, 3.203 where the chain ended
+* about 0.1 s in total; the sampler itself is a small fraction of that, most of the time goes into re-building the chosen design
+
+The refined design is re-built through the same pipeline and runs through every constraint check again, so a refined building is held to the same standard as a generated one. The studio shows the energy trace, the per-objective before/after table, the last accepted moves with their `ΔE` and acceptance probability, and a before/after compare of the two buildings.
+
+### Reproducible
+
+The chain's randomness comes only from the design seed and the sampler seed, so the same design, settings and sampler seed always give the same chain, step for step. Project files store the refinement settings along with the design.
+
+### Try it
+
+* In the studio: open the **Refine** tab, adjust the weights and temperature, then **Run refinement**. Press **B** to flip between before and after.
+* From the command line:
+
+  ```bash
+  java -cp engine/target/forma-engine.jar studio.forma.engine.cli.FormaCli refine library \
+       --seed 7 --iterations 2000 --temperature 0.25 --mcmc-seed 1 --keep best --out out/refined
+  # add --anneal 0.02 to anneal from 0.25 down to 0.02
+  ```
+
+### Where it lives in the code
+
+| File | Role |
+|---|---|
+| `engine/.../mcmc/MetropolisSampler.java` | Generic Metropolis-Hastings sampler: proposals with forward/reverse log probabilities, hard constraints, temperature schedule, trace |
+| `engine/.../mcmc/MassingRefiner.java` | The move families above, applied to a massing |
+| `engine/.../mcmc/RefineProfile.java`, `Objectives.java` | What each world lets the chain change, its objectives and hard constraints |
+| `engine/.../mcmc/Refinement.java` | Runs a refinement, re-builds the kept design and reports the result (shared by the CLI and the server) |
+| `engine/.../presets/*Preset.java` (`refineProfile`) | Per-world choices: for example the Escher labyrinth's chain moves anchor platforms to create more optical joins in the isometric view |
+
 ## What is in the box
 
 ```
