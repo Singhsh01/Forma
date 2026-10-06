@@ -2,6 +2,10 @@
 
 FORMA grows architecture from rules. A Java engine composes a massing from parameters and a seed, rasterises it into a voxel grid, lets MarkovJunior-style rewrite rules grow windows, gardens and details, fills tile lattices with Wave Function Collapse, walks the result to prove every space is reachable, and can refine the composition with a real Metropolis-Hastings sampler. A React and three.js studio shows the result as a lit diorama, lets you replay every recorded stage, read and edit the rules, compare refinements and export images, models and reproducible project files.
 
+![FORMA in 14 seconds: live generation, growth replay, the seven worlds, isometric render modes, rules, checks and refinement](docs/video/forma-demo.gif)
+
+Watch the [14-second demo (MP4)](docs/video/forma-demo-14s.mp4) or the [full feature tour (1:42)](docs/video/forma-feature-tour.mp4).
+
 ![The studio with the flagship design](docs/screenshots/studio-library-desktop.png)
 
 ## Quick start
